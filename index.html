@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sequence — Canadian Championship Curling Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- AMBIENT ICE SHEET & RINK ILLUMINATION ATMOSPHERE -->
+  <div class="rink-ice-base" aria-hidden="true"></div>
+  <div class="rink-vignette" aria-hidden="true"></div>
+  <div class="rink-light-reflections" aria-hidden="true"></div>
+  
+  <!-- REUSABLE SVG DEFINITIONS FOR 12 CURLING ICONS + OFFICIAL MAPLE LEAF -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false" style="display: none;">
+    <defs>
+      <!-- MANDATORY CANADIAN MAPLE LEAF (Merlin2525 Geometry with Transparent Background) -->
+      <g id="icon-maple-leaf" transform="translate(-250.85 -233.44)">
+        <path
+          class="maple-leaf-path"
+          d="m325.8 480.69 8.1527-20.11-65.765-60.873 17.392-9.2397-7.6092-44.568 39.676 4.3481 11.957-16.849 30.98 39.133-17.392-84.788 26.089 8.6962 25.001-45.655 23.371 44.568 27.719-7.6092-17.936 84.244 30.98-38.046 10.87 16.305 39.133-3.8046-5.9786 42.937 17.936 11.414-65.765 60.33 7.0656 21.197-58.699-9.7832 1.6305 72.83h-22.284l3.2611-73.374z"
+        />
+      </g>
+
+      <!-- 1. CURLING STONE -->
+      <g id="icon-curling-stone">
+        <ellipse cx="50" cy="58" rx="44" ry="24" fill="currentColor" opacity="0.9" />
+        <ellipse cx="50" cy="52" rx="42" ry="18" fill="var(--c-ice-surface, #F2F9FD)" />
+        <ellipse cx="50" cy="50" rx="34" ry="13" fill="currentColor" opacity="0.85" />
+        <path d="M38 48 C38 32 46 22 58 22 C68 22 72 26 72 32 C72 36 68 37 60 37 L48 37" fill="none" stroke="var(--c-stone-red, #FF2B30)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+
+      <!-- 2. CURLING HOUSE / RINGS -->
+      <g id="icon-curling-house">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="7" opacity="0.3" />
+        <circle cx="50" cy="50" r="33" fill="none" stroke="var(--c-stone-red, #D71920)" stroke-width="8" opacity="0.8" />
+        <circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="5" opacity="0.4" />
+        <circle cx="50" cy="50" r="8" fill="var(--c-stone-yellow, #FFC400)" />
+        <line x1="50" y1="2" x2="50" y2="98" stroke="currentColor" stroke-width="2" opacity="0.5" />
+        <line x1="2" y1="50" x2="98" y2="50" stroke="currentColor" stroke-width="2" opacity="0.5" />
+      </g>
+
+      <!-- 3. CURLING BROOM -->
+      <g id="icon-curling-broom">
+        <line x1="82" y1="12" x2="26" y2="76" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+        <rect x="12" y="70" width="28" height="14" rx="4" transform="rotate(-40 26 77)" fill="var(--c-canadian-red, #D71920)" />
+      </g>
+
+      <!-- 4. BRUSH HEAD -->
+      <g id="icon-brush-head">
+        <rect x="15" y="38" width="70" height="24" rx="8" fill="currentColor" />
+        <rect x="18" y="41" width="64" height="18" rx="5" fill="var(--c-stone-yellow, #FFD83D)" />
+        <circle cx="50" cy="38" r="7" fill="var(--c-ice-dark-blue, #0E1E2E)" />
+      </g>
+
+      <!-- 5. HACK -->
+      <g id="icon-hack">
+        <rect x="18" y="32" width="28" height="42" rx="4" fill="currentColor" opacity="0.8" />
+        <rect x="54" y="32" width="28" height="42" rx="4" fill="currentColor" opacity="0.8" />
+        <line x1="22" y1="46" x2="42" y2="46" stroke="var(--c-ice-surface, #FFF)" stroke-width="3" />
+        <line x1="22" y1="58" x2="42" y2="58" stroke="var(--c-ice-surface, #FFF)" stroke-width="3" />
+        <line x1="58" y1="46" x2="78" y2="46" stroke="var(--c-ice-surface, #FFF)" stroke-width="3" />
+        <line x1="58" y1="58" x2="78" y2="58" stroke="var(--c-ice-surface, #FFF)" stroke-width="3" />
+      </g>
+
+      <!-- 6. CURLING STONE HANDLE -->
+      <g id="icon-stone-handle">
+        <path d="M20 70 C20 35 35 20 62 20 C78 20 85 28 85 36 C85 45 76 46 64 46 L40 46" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" />
+        <circle cx="20" cy="70" r="7" fill="var(--c-canadian-red, #D71920)" />
+      </g>
+
+      <!-- 7. HOG LINE -->
+      <g id="icon-hog-line">
+        <rect x="4" y="44" width="92" height="12" fill="var(--c-canadian-red, #D71920)" rx="2" />
+        <text x="50" y="53" font-size="8" font-family="sans-serif" font-weight="900" text-anchor="middle" fill="#FFF" letter-spacing="1">HOG LINE</text>
+      </g>
+
+      <!-- 8. BACK LINE -->
+      <g id="icon-back-line">
+        <line x1="6" y1="50" x2="94" y2="50" stroke="currentColor" stroke-width="5" stroke-dasharray="10 6" />
+        <circle cx="50" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="3" />
+      </g>
+
+      <!-- 9. CENTRE LINE -->
+      <g id="icon-centre-line">
+        <line x1="50" y1="4" x2="50" y2="96" stroke="currentColor" stroke-width="5" />
+        <path d="M42 50 L50 38 L58 50 L50 62 Z" fill="var(--c-stone-yellow, #FFC400)" />
+      </g>
+
+      <!-- 10. CURLING PEBBLE / ICE TEXTURE MOTIF -->
+      <g id="icon-ice-pebble">
+        <circle cx="28" cy="30" r="6" fill="currentColor" opacity="0.6" />
+        <circle cx="68" cy="24" r="8" fill="currentColor" opacity="0.8" />
+        <circle cx="48" cy="52" r="5" fill="currentColor" opacity="0.5" />
+        <circle cx="76" cy="68" r="7" fill="currentColor" opacity="0.7" />
+        <circle cx="26" cy="74" r="9" fill="currentColor" opacity="0.7" />
+      </g>
+
+      <!-- 11. SCOREBOARD / END MARKER -->
+      <g id="icon-scoreboard-end">
+        <rect x="10" y="18" width="80" height="64" rx="6" fill="currentColor" />
+        <rect x="16" y="24" width="68" height="52" rx="4" fill="var(--c-ice-surface, #F2F9FD)" />
+        <text x="50" y="44" font-size="16" font-family="serif" font-weight="900" text-anchor="middle" fill="var(--c-ice-dark-blue, #0E1E2E)">END</text>
+        <text x="50" y="66" font-size="20" font-family="sans-serif" font-weight="900" text-anchor="middle" fill="var(--c-canadian-red, #D71920)">8</text>
+      </g>
+
+      <!-- 12. SKIP / THROWING-POSITION SILHOUETTE -->
+      <g id="icon-curling-skip">
+        <circle cx="65" cy="26" r="10" fill="currentColor" />
+        <path d="M62 36 L42 54 L20 54" stroke="currentColor" stroke-width="7" stroke-linecap="round" fill="none" />
+        <path d="M44 54 L64 78 L84 78" stroke="currentColor" stroke-width="7" stroke-linecap="round" fill="none" />
+        <path d="M50 44 L32 72 L12 72" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.7" />
+        <circle cx="88" cy="78" r="8" fill="var(--c-stone-red, #FF2B30)" />
+      </g>
+    </defs>
+  </svg>
+
+  <!-- DYNAMIC FLOATING CURLING BACKGROUND CONTAINER -->
+  <div id="ambient-curling-canvas" class="ambient-curling-canvas" aria-hidden="true"></div>
+
+  <div id="app" class="app-shell">
+    
+    <!-- MAIN NAVIGATION BAR / RINK SCOREBOARD HEADER -->
+    <header class="app-header panel-glass-neo">
+      <div class="header-left">
+        <button id="header-back-btn" class="btn btn-sm btn-tactile hidden" type="button" aria-label="Back to Menu">
+          <span class="btn-icon-prefix">←</span> Back
+        </button>
+      </div>
+      <div class="header-center">
+        <div class="header-branding">
+          <svg class="brand-maple-mini" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+            <use href="#icon-maple-leaf" />
+          </svg>
+          <h1 id="header-title" class="header-title">SEQUENCE</h1>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="btn-stats" class="btn btn-icon btn-tactile" type="button" aria-label="Statistics" title="Statistics">📊</button>
+        <button id="btn-rules" class="btn btn-icon btn-tactile" type="button" aria-label="How to Play" title="How to Play">❓</button>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <!-- VIEW 1: MAIN MENU (DAILY PUZZLE -> VAULT -> HOME) -->
+      <section id="view-menu" class="view">
+        <div class="menu-hero">
+          <div class="hero-insignia">
+            <svg class="hero-maple-leaf" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+              <use href="#icon-maple-leaf" />
+            </svg>
+          </div>
+          <div class="championship-banner">
+            <span class="banner-line"></span>
+            <span class="banner-tag">CHAMPIONSHIP RINK TOURNAMENT</span>
+            <span class="banner-line"></span>
+          </div>
+          <h2 class="hero-brand">SEQUENCE</h2>
+          <p class="hero-tagline">Align 5 tournament items into their precise championship order</p>
+        </div>
+
+        <nav class="universal-nav" aria-label="Main Navigation">
+          <!-- 1. DAILY PUZZLE -->
+          <article class="nav-card primary-card panel-glass-neo sweep-highlight">
+            <div class="stone-edge-bar stone-red-accent" aria-hidden="true"></div>
+            <div class="card-meta">
+              <span class="badge badge-accent">
+                <span class="badge-dot red"></span> 1. Daily Puzzle
+              </span>
+              <span id="menu-today-date" class="badge badge-ice">Today</span>
+            </div>
+            <h3 id="menu-today-title" class="card-title">Loading today's challenge...</h3>
+            <p id="menu-today-status" class="status-text">Status: Checking puzzle sheet...</p>
+            <button id="btn-play-today" class="btn btn-primary btn-block btn-tactile" type="button">
+              Play Daily Puzzle
+            </button>
+          </article>
+
+          <!-- 2. VAULT -->
+          <article class="nav-card panel-glass-neo">
+            <div class="stone-edge-bar stone-yellow-accent" aria-hidden="true"></div>
+            <div class="card-meta">
+              <span class="badge badge-subtle">
+                <span class="badge-dot yellow"></span> 2. Vault
+              </span>
+              <span id="menu-archive-count" class="badge badge-ice">0 Puzzles</span>
+            </div>
+            <h3 class="card-title">Puzzle Archive</h3>
+            <p class="status-text">Revisit and solve previous tournament sheets</p>
+            <button id="btn-view-vault" class="btn btn-secondary btn-block btn-tactile" type="button">
+              Open Vault
+            </button>
+          </article>
+
+          <!-- 3. HOME -->
+          <article class="nav-card nav-card-flat panel-glass-neo">
+            <div class="card-meta">
+              <span class="badge badge-outline">3. Home</span>
+            </div>
+            <p class="status-text">Return to main games collection</p>
+            <a id="btn-nav-home" class="btn btn-outline btn-block btn-tactile" href="#home" target="_top" rel="noopener">
+              Exit to Home
+            </a>
+          </article>
+        </nav>
+      </section>
+
+      <!-- VIEW 2: GAMEPLAY SCREEN -->
+      <section id="view-game" class="view hidden">
+        <!-- ICONS & STATUS ABOVE THE GAME BOARD -->
+        <div class="board-status-bar panel-glass-neo">
+          <div class="status-pill-group">
+            <span id="game-date-badge" class="badge badge-ice">2025-01-01</span>
+            <span id="game-attempts-badge" class="badge badge-status">Attempts: 4 / 4</span>
+          </div>
+          <div id="hint-status-indicator" class="hint-indicator hidden" aria-live="polite">
+            <span class="hint-icon" aria-hidden="true">💡</span>
+            <span id="hint-status-text">Hint unlocked below</span>
+          </div>
+        </div>
+
+        <!-- GAME BOARD IN THE CENTER -->
+        <div class="game-board" id="game-board">
+          <div id="slots-container" class="slots-container" role="region" aria-label="Sequence Slots">
+            <div class="slot panel-glass-neo" data-slot="0" tabindex="0" role="button" aria-label="Slot 1">
+              <div class="slot-num" aria-hidden="true">1</div>
+              <div class="slot-body">
+                <span class="slot-name">Slot 1</span>
+                <span class="slot-value"><span class="placeholder">Empty</span></span>
+              </div>
+              <div class="slot-status" aria-label="Status indicator"></div>
+            </div>
+            <div class="slot panel-glass-neo" data-slot="1" tabindex="0" role="button" aria-label="Slot 2">
+              <div class="slot-num" aria-hidden="true">2</div>
+              <div class="slot-body">
+                <span class="slot-name">Slot 2</span>
+                <span class="slot-value"><span class="placeholder">Empty</span></span>
+              </div>
+              <div class="slot-status" aria-label="Status indicator"></div>
+            </div>
+            <div class="slot panel-glass-neo" data-slot="2" tabindex="0" role="button" aria-label="Slot 3">
+              <div class="slot-num" aria-hidden="true">3</div>
+              <div class="slot-body">
+                <span class="slot-name">Slot 3</span>
+                <span class="slot-value"><span class="placeholder">Empty</span></span>
+              </div>
+              <div class="slot-status" aria-label="Status indicator"></div>
+            </div>
+            <div class="slot panel-glass-neo" data-slot="3" tabindex="0" role="button" aria-label="Slot 4">
+              <div class="slot-num" aria-hidden="true">4</div>
+              <div class="slot-body">
+                <span class="slot-name">Slot 4</span>
+                <span class="slot-value"><span class="placeholder">Empty</span></span>
+              </div>
+              <div class="slot-status" aria-label="Status indicator"></div>
+            </div>
+            <div class="slot panel-glass-neo" data-slot="4" tabindex="0" role="button" aria-label="Slot 5">
+              <div class="slot-num" aria-hidden="true">5</div>
+              <div class="slot-body">
+                <span class="slot-name">Slot 5</span>
+                <span class="slot-value"><span class="placeholder">Empty</span></span>
+              </div>
+              <div class="slot-status" aria-label="Status indicator"></div>
+            </div>
+          </div>
+
+          <!-- ITEMS POOL -->
+          <div class="pool-section panel-glass-neo">
+            <div class="pool-header">
+              <span class="section-label">Options (Tap stone to place)</span>
+              <button id="btn-clear" class="btn btn-xs btn-tactile" type="button">Clear Unlocked</button>
+            </div>
+            <div id="items-pool" class="items-pool" role="group" aria-label="Available items"></div>
+          </div>
+        </div>
+
+        <!-- SUPPORTING TEXT & ACTIONS BELOW THE GAME BOARD -->
+        <div class="board-supporting-info">
+          <div class="clue-box panel-glass-neo">
+            <div class="clue-header-line">
+              <strong class="clue-label">Sheet Clue:</strong>
+              <svg class="clue-maple" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+                <use href="#icon-maple-leaf" />
+              </svg>
+            </div>
+            <p id="game-clue" class="clue-text"></p>
+          </div>
+
+          <div id="hint-box" class="hint-box panel-glass-neo hidden">
+            <strong class="hint-label">💡 Skip's Guidance:</strong>
+            <p id="hint-text" class="hint-text"></p>
+          </div>
+
+          <div class="submit-actions">
+            <button id="btn-submit" class="btn btn-primary btn-block btn-large btn-tactile sweep-highlight" type="button">
+              Submit Sequence
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: VAULT (ARCHIVE) -->
+      <section id="view-vault" class="view hidden">
+        <div class="vault-header panel-glass-neo">
+          <div class="vault-title-wrap">
+            <h2>Tournament Vault</h2>
+            <svg class="vault-maple" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+              <use href="#icon-maple-leaf" />
+            </svg>
+          </div>
+          <p class="status-text">Archive of past daily curling sheets.</p>
+        </div>
+        <div id="vault-list" class="vault-list" role="list"></div>
+      </section>
+    </main>
+
+    <!-- MODAL: RESULT -->
+    <div id="modal-result" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <div class="modal panel-glass-neo">
+        <button class="modal-close" id="btn-close-result" type="button" aria-label="Close modal">&times;</button>
+        <div class="modal-crest">
+          <svg class="result-maple" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+            <use href="#icon-maple-leaf" />
+          </svg>
+        </div>
+        <h2 id="result-title" class="modal-heading">Sequence Complete</h2>
+        <p id="result-subtitle" class="status-text"></p>
+        
+        <div id="result-grid" class="result-grid" aria-label="Attempt summary grid"></div>
+
+        <div class="solution-container">
+          <h3 class="section-label">Official Placement Sequence</h3>
+          <ol id="result-solution-list" class="solution-list"></ol>
+        </div>
+
+        <p id="result-notes" class="result-notes"></p>
+
+        <div class="modal-actions">
+          <button id="btn-share" class="btn btn-primary btn-tactile" type="button">Copy Result</button>
+          <button id="btn-result-vault" class="btn btn-secondary btn-tactile" type="button">Vault</button>
+          <button id="btn-result-menu" class="btn btn-outline btn-tactile" type="button">Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: RULES -->
+    <div id="modal-rules" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+      <div class="modal panel-glass-neo">
+        <button class="modal-close" id="btn-close-rules" type="button" aria-label="Close modal">&times;</button>
+        <div class="modal-crest">
+          <svg class="rules-maple" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+            <use href="#icon-maple-leaf" />
+          </svg>
+        </div>
+        <h2 id="rules-title" class="modal-heading">How to Play</h2>
+        <ol class="rules-list">
+          <li><strong>Read the Clue:</strong> Understand the tournament sequence requirements for Slots 1 through 5.</li>
+          <li><strong>Select & Place:</strong> Tap a target slot, then select an item from the granite options pool.</li>
+          <li><strong>Deliver & Submit:</strong> You have <strong>4 attempts</strong>. Correctly placed items lock into the rings (`✓`). Incorrect items are removed.</li>
+          <li><strong>Skip's Hint:</strong> If you need guidance on the ice, tactical advice unlocks automatically after 2 attempts.</li>
+        </ol>
+        <button id="btn-rules-ok" class="btn btn-primary btn-block btn-tactile" type="button">Got It</button>
+      </div>
+    </div>
+
+    <!-- MODAL: STATS -->
+    <div id="modal-stats" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+      <div class="modal panel-glass-neo">
+        <button class="modal-close" id="btn-close-stats" type="button" aria-label="Close modal">&times;</button>
+        <div class="modal-crest">
+          <svg class="stats-maple" viewBox="0 0 298.72 341.12" aria-hidden="true" focusable="false">
+            <use href="#icon-maple-leaf" />
+          </svg>
+        </div>
+        <h2 id="stats-title" class="modal-heading">Curler Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span id="stat-played" class="stat-value">0</span>
+            <span class="stat-label">Played</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-win-rate" class="stat-value">0%</span>
+            <span class="stat-label">Win Rate</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-streak" class="stat-value">0</span>
+            <span class="stat-label">Current Streak</span>
+          </div>
+          <div class="stat-box">
+            <span id="stat-max-streak" class="stat-value">0</span>
+            <span class="stat-label">Max Streak</span>
+          </div>
+        </div>
+        <h3 class="section-label">End Distribution</h3>
+        <div id="stats-distribution" class="dist-container"></div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

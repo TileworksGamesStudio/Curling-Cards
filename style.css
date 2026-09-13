@@ -1,0 +1,1184 @@
+/* ==========================================================================
+   ADVANCED LIGHT NEO-BRUTALIST CANADIAN SPORT INTERFACE
+   Curling Championship Design System & Ice-Sheet Aesthetics
+   ========================================================================== */
+
+:root {
+  /* Ice Sheet Surface & Backgrounds */
+  --c-ice-white:       #F8FCFF;
+  --c-ice-surface:     #F2F9FD;
+  --c-ice-pale-blue:   #EAF6FC;
+  --c-ice-soft-blue:   #DCEFFC;
+  --c-ice-deep-tint:   #CFE6F5;
+
+  /* Deep Ice-Marking Blue Structure */
+  --c-ice-dark-blue:   #0E1E2E;
+  --c-ice-navy-mid:    #18324A;
+  --c-ice-subtle-blue: #32506D;
+  --c-ice-line-blue:   #1E3A8A;
+  
+  /* Canadian National Identity Red */
+  --c-canadian-red:    #D71920;
+  --c-canadian-dark:   #A31016;
+
+  /* Curling Stone Accent Colors */
+  --c-stone-red:       #FF2B30;
+  --c-stone-red-tint:  rgba(255, 43, 48, 0.12);
+  --c-stone-yellow:    #FFC400;
+  --c-stone-yellow-hi: #FFD83D;
+  --c-stone-yellow-tint: rgba(255, 196, 0, 0.16);
+
+  /* Functional Semantics */
+  --bg:                var(--c-ice-white);
+  --surface:           rgba(255, 255, 255, 0.88);
+  --surface-alt:       rgba(242, 249, 253, 0.94);
+  --text:              var(--c-ice-dark-blue);
+  --text-muted:        var(--c-ice-subtle-blue);
+  --border-color:      var(--c-ice-dark-blue);
+  --border-subtle:     rgba(14, 30, 46, 0.35);
+
+  /* Tactical Feedback */
+  --correct-tint:      #E4F4EC;
+  --correct-border:    #1F6A44;
+  --incorrect-tint:    #FDECEE;
+  --incorrect-border:  var(--c-canadian-red);
+
+  /* Neo-Brutalist Geometry & Depth */
+  --radius:            8px;
+  --border-width:      2px;
+  --shadow-offset:     3px 3px 0px var(--c-ice-dark-blue);
+  --shadow-hover:      4px 4px 0px var(--c-ice-dark-blue);
+  --shadow-pressed:    1px 1px 0px var(--c-ice-dark-blue);
+  --shadow-panel:      4px 4px 0px rgba(14, 30, 46, 0.95);
+  
+  /* Motion Constants */
+  --t-fast:            130ms cubic-bezier(0.2, 0, 0.2, 1);
+  --t-glide:           260ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ==========================================================================
+   AMBIENT ICE SHEET & ARENA LIGHTING
+   ========================================================================== */
+
+.rink-ice-base {
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 0%, #FFFFFF 0%, var(--c-ice-pale-blue) 60%, var(--c-ice-soft-blue) 100%);
+  z-index: -4;
+  pointer-events: none;
+}
+
+.rink-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(179, 215, 238, 0.45) 100%);
+  z-index: -3;
+  pointer-events: none;
+}
+
+.rink-light-reflections {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 18% 25%, rgba(255, 255, 255, 0.85) 0%, transparent 18%),
+    radial-gradient(circle at 82% 65%, rgba(255, 255, 255, 0.7) 0%, transparent 22%),
+    radial-gradient(circle at 50% 90%, rgba(220, 239, 252, 0.5) 0%, transparent 30%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Dynamic Ambient Curling & Maple Leaf Canvas */
+.ambient-curling-canvas {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ambient-curling-entity {
+  position: absolute;
+  color: var(--c-ice-navy-mid);
+  opacity: 0.12;
+  transition: opacity 0.5s ease;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.ambient-curling-entity svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ambient-curling-entity.leaf {
+  color: var(--c-canadian-red);
+  opacity: 0.15;
+}
+
+.ambient-curling-entity.depth-near {
+  filter: drop-shadow(0 4px 6px rgba(14, 30, 46, 0.08));
+}
+
+.ambient-curling-entity.depth-mid {
+  filter: blur(0.5px);
+}
+
+.ambient-curling-entity.depth-far {
+  filter: blur(1.5px);
+}
+
+/* SVG MAPLE LEAF STYLING */
+.maple-leaf-path {
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   APP SHELL & LAYOUT
+   ========================================================================== */
+
+.app-shell {
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* LIGHT ICE-GLASS NEO-BRUTALIST PANELS */
+.panel-glass-neo {
+  background-color: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+  position: relative;
+}
+
+/* EFFECT 1: ICE-LINE LIGHT SWEEP */
+.sweep-highlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep-highlight::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: iceSweepAnimation 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes iceSweepAnimation {
+  0%, 75% { left: -100%; }
+  85%, 100% { left: 160%; }
+}
+
+/* ==========================================================================
+   HEADER NAVIGATION
+   ========================================================================== */
+
+.app-header {
+  display: grid;
+  grid-template-columns: 84px 1fr 84px;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border-bottom: 2.5px solid var(--border-color);
+}
+
+.header-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-maple-mini {
+  width: 20px;
+  height: 20px;
+  color: var(--c-canadian-red);
+}
+
+.header-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Trebuchet MS", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ice-dark-blue);
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   TACTILE NEO-BRUTALIST BUTTON SYSTEM
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border-color);
+  background-color: var(--surface-alt);
+  color: var(--text);
+  box-shadow: var(--shadow-offset);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
+  user-select: none;
+  min-height: 44px;
+  position: relative;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: #FFFFFF;
+  box-shadow: var(--shadow-hover);
+  transform: translate(-1px, -1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--c-canadian-red);
+  outline-offset: 2px;
+}
+
+.btn:active, .btn.pressed {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.btn-primary {
+  background-color: var(--c-ice-dark-blue);
+  color: #FFFFFF;
+  border-color: var(--c-ice-dark-blue);
+}
+
+.btn-primary:hover {
+  background-color: var(--c-ice-navy-mid);
+  color: #FFFFFF;
+  border-color: var(--c-ice-navy-mid);
+}
+
+.btn-secondary {
+  background-color: var(--c-ice-surface);
+  color: var(--c-ice-dark-blue);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-style: dashed;
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.btn-xs {
+  min-height: 30px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+.btn-icon {
+  min-height: 36px;
+  width: 36px;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-large {
+  font-size: 1rem;
+  padding: 14px;
+}
+
+.btn-icon-prefix {
+  margin-right: 4px;
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   CARDS & MENU VIEW
+   ========================================================================== */
+
+.menu-hero {
+  text-align: center;
+  padding: 10px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-insignia {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 8px;
+}
+
+.hero-maple-leaf {
+  width: 100%;
+  height: 100%;
+  color: var(--c-canadian-red);
+  filter: drop-shadow(0 2px 4px rgba(215, 25, 32, 0.25));
+}
+
+.championship-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.banner-line {
+  height: 2px;
+  width: 36px;
+  background-color: var(--c-canadian-red);
+}
+
+.banner-tag {
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--c-canadian-red);
+}
+
+.hero-brand {
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--c-ice-dark-blue);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.hero-tagline {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  max-width: 360px;
+}
+
+.universal-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nav-card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stone-edge-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+}
+
+.stone-red-accent {
+  background-color: var(--c-canadian-red);
+}
+
+.stone-yellow-accent {
+  background-color: var(--c-stone-yellow);
+}
+
+.nav-card.primary-card {
+  background-color: var(--surface-alt);
+  border-width: 2.5px;
+}
+
+.nav-card-flat {
+  border-style: dashed;
+  box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--c-ice-dark-blue);
+}
+
+/* BADGES & CHIPS */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  background-color: var(--c-ice-deep-tint);
+  color: var(--c-ice-dark-blue);
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge-dot.red {
+  background-color: var(--c-stone-red);
+}
+
+.badge-dot.yellow {
+  background-color: var(--c-stone-yellow);
+}
+
+.badge-accent {
+  background-color: var(--c-ice-dark-blue);
+  color: #FFFFFF;
+}
+
+.badge-ice {
+  background-color: #FFFFFF;
+}
+
+.badge-status {
+  background-color: #FFFFFF;
+  border-color: var(--border-color);
+}
+
+.badge-subtle {
+  background-color: var(--c-ice-pale-blue);
+}
+
+.status-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ice-subtle-blue);
+}
+
+/* ==========================================================================
+   GAMEPLAY SCREEN HIERARCHY
+   1. Icons/Status ABOVE board
+   2. Board in CENTER
+   3. Supporting text BELOW board
+   ========================================================================== */
+
+.board-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.status-pill-group {
+  display: flex;
+  gap: 6px;
+}
+
+.hint-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--c-canadian-dark);
+}
+
+.hint-icon {
+  font-size: 0.9rem;
+}
+
+/* GAME BOARD */
+.game-board {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* SEQUENCE SLOTS (Curling Sheet Lanes) */
+.slot {
+  display: grid;
+  grid-template-columns: 34px 1fr 38px;
+  align-items: center;
+  padding: 8px 12px;
+  min-height: 52px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--c-ice-dark-blue);
+  transition: transform var(--t-fast), background-color var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.slot:hover {
+  background-color: #FFFFFF;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--c-ice-dark-blue);
+}
+
+.slot:focus-visible {
+  outline: 3px solid var(--c-canadian-red);
+  outline-offset: 1px;
+}
+
+.slot.active {
+  border-color: var(--c-canadian-red);
+  background-color: #FFFFFF;
+  transform: translate(2px, 2px);
+  box-shadow: inset 2px 2px 0px rgba(14, 30, 46, 0.1), 1px 1px 0px var(--c-canadian-red);
+}
+
+.slot.locked {
+  background-color: var(--correct-tint);
+  border-color: var(--correct-border);
+  cursor: default;
+}
+
+.slot-num {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--c-ice-subtle-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1.5px solid var(--c-ice-deep-tint);
+  height: 100%;
+}
+
+.slot.locked .slot-num {
+  color: var(--correct-border);
+  border-right-color: rgba(31, 106, 68, 0.3);
+}
+
+.slot-body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+.slot-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--c-ice-subtle-blue);
+  letter-spacing: 0.05em;
+}
+
+.slot.locked .slot-name {
+  color: var(--correct-border);
+}
+
+.slot-value {
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--c-ice-dark-blue);
+}
+
+.placeholder {
+  color: var(--c-ice-subtle-blue);
+  font-style: italic;
+  font-weight: 500;
+  opacity: 0.65;
+}
+
+.slot-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+
+.slot.locked .slot-status::after {
+  content: "✓";
+  color: var(--correct-border);
+}
+
+.slot.incorrect-flash {
+  background-color: var(--incorrect-tint);
+  border-color: var(--incorrect-border);
+  animation: stoneShake 0.4s ease;
+}
+
+@keyframes stoneShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* POOL SECTION */
+.pool-section {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.items-pool {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* ITEM TILE: Tactile Curling Stone Button */
+.item-tile {
+  background-color: #FFFFFF;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-offset);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background-color var(--t-fast), border-color var(--t-fast);
+}
+
+.item-tile:hover {
+  background-color: var(--c-ice-surface);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--c-ice-dark-blue);
+}
+
+.item-tile:focus-visible {
+  outline: 3px solid var(--c-canadian-red);
+  outline-offset: 1px;
+}
+
+.item-tile:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.item-tile.used {
+  opacity: 0.35;
+  pointer-events: none;
+  border-style: dashed;
+  background-color: var(--c-ice-deep-tint);
+  box-shadow: none;
+}
+
+/* SUPPORTING TEXT & ACTIONS BELOW BOARD */
+.board-supporting-info {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clue-box, .hint-box {
+  padding: 12px 14px;
+}
+
+.clue-header-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.clue-maple {
+  width: 14px;
+  height: 14px;
+  color: var(--c-canadian-red);
+}
+
+.clue-label, .hint-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-ice-subtle-blue);
+  font-weight: 800;
+}
+
+.clue-text, .hint-text {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--c-ice-dark-blue);
+}
+
+.hint-box {
+  background-color: #FFFFFF;
+  border-style: dashed;
+  border-color: var(--c-canadian-red);
+}
+
+.hint-box .hint-label {
+  color: var(--c-canadian-red);
+}
+
+.submit-actions {
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   VAULT (ARCHIVE) SCREEN
+   ========================================================================== */
+
+.vault-header {
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.vault-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.vault-header h2 {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--c-ice-dark-blue);
+}
+
+.vault-maple {
+  width: 18px;
+  height: 18px;
+  color: var(--c-canadian-red);
+}
+
+.vault-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vault-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow-offset);
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background-color var(--t-fast);
+}
+
+.vault-item:hover {
+  background-color: #FFFFFF;
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.vault-item:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.vault-item-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--c-ice-dark-blue);
+}
+
+/* ==========================================================================
+   MODALS
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(14, 30, 46, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #FFFFFF;
+  border: 2.5px solid var(--border-color);
+  border-radius: var(--radius);
+  max-width: 470px;
+  width: 100%;
+  padding: 22px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 6px 6px 0px var(--c-ice-dark-blue);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 1.6rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--c-ice-dark-blue);
+  font-weight: 800;
+  padding: 4px 8px;
+}
+
+.modal-crest {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.result-maple, .rules-maple, .stats-maple {
+  width: 32px;
+  height: 32px;
+  color: var(--c-canadian-red);
+}
+
+.modal-heading {
+  font-size: 1.35rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 4px;
+  color: var(--c-ice-dark-blue);
+}
+
+.solution-container {
+  background-color: var(--c-ice-surface);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin: 14px 0;
+}
+
+.solution-list {
+  padding-left: 20px;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.solution-list li {
+  margin-bottom: 4px;
+}
+
+.result-notes {
+  font-size: 0.85rem;
+  color: var(--c-ice-subtle-blue);
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-actions .btn {
+  flex: 1 1 30%;
+}
+
+.result-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 14px 0;
+}
+
+.result-grid-row {
+  display: flex;
+  gap: 6px;
+}
+
+.result-grid-cell {
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.result-grid-cell.hit {
+  background-color: var(--correct-tint);
+  color: var(--correct-border);
+}
+
+.result-grid-cell.hit::after {
+  content: "✓";
+}
+
+.result-grid-cell.miss {
+  background-color: var(--c-ice-deep-tint);
+  color: var(--c-ice-subtle-blue);
+}
+
+.result-grid-cell.miss::after {
+  content: "–";
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.stat-box {
+  background-color: var(--c-ice-surface);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 10px 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--c-ice-dark-blue);
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--c-ice-subtle-blue);
+}
+
+.dist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.dist-bar-bg {
+  flex: 1;
+  background-color: var(--c-ice-surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 22px;
+}
+
+.dist-bar-fill {
+  background-color: var(--c-ice-dark-blue);
+  color: #FFFFFF;
+  height: 100%;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  min-width: 20px;
+}
+
+/* RULES */
+.rules-list {
+  padding-left: 20px;
+  margin: 14px 0 18px;
+  font-size: 0.9rem;
+}
+
+.rules-list li {
+  margin-bottom: 8px;
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--c-ice-dark-blue);
+  color: #FFFFFF;
+  border: var(--border-width) solid #FFFFFF;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(14, 30, 46, 0.25);
+  z-index: 2000;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   REDUCED MOTION (A11Y)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+  .sweep-highlight::after {
+    display: none !important;
+  }
+  .ambient-curling-entity {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT
+   ========================================================================== */
+
+@media (max-width: 440px) {
+  .items-pool {
+    grid-template-columns: 1fr;
+  }
+  .app-header {
+    grid-template-columns: 72px 1fr 72px;
+  }
+  .slot {
+    grid-template-columns: 28px 1fr 28px;
+    padding: 6px 8px;
+    min-height: 48px;
+  }
+  .slot-value {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-height: 680px) {
+  .app-shell {
+    padding-top: 6px;
+    padding-bottom: 12px;
+  }
+  .menu-hero {
+    padding: 4px 0 10px;
+  }
+  .hero-insignia {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+  .hero-brand {
+    font-size: 1.7rem;
+  }
+  .slot {
+    min-height: 44px;
+    padding: 4px 8px;
+  }
+  .board-supporting-info {
+    margin-top: 8px;
+    gap: 6px;
+  }
+  .clue-box, .hint-box {
+    padding: 8px 10px;
+  }
+}
